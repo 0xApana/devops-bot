@@ -219,7 +219,5 @@ async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE):
     answer = ask_ai(question)
 
     await update.message.reply_text(
-        f"🤖 *DevOps Bot Answer:*\n\n{answer}\n\n"
-        f"_Powered by AI • Built by 0xApana_ 🚀",
-        parse_mode="Markdown"
+        f"🤖 DevOps Bot Answer:\n\n{answer}\n\nPowered by AI • Built by 0xApana 🚀"
     )
