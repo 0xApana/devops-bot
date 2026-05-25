@@ -16,7 +16,7 @@ def main():
     app.add_handler(CommandHandler("quiz", quiz))
     app.add_handler(CommandHandler("resources", resources))
     app.add_handler(CommandHandler("about", about))
-    app.add_Handler(CommandHandler("ask", ask))
+    app.add_handler(CommandHandler("ask", ask))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_answer))
     print("Bot is running...")
     app.run_polling(allowed_updates=["message"])
