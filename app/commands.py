@@ -200,3 +200,26 @@ async def about(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "💬 This bot was built as part of my DevOps learning journey.\n"
         "Building real skills, one container at a time. 🚀"
     )
+
+async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    args = context.args
+    if not args:
+        await update.message.reply_text(
+            "🤖 Ask me anything about DevOps!\n\n"
+            "Example: /ask what is kubernetes?\n"
+            "Example: /ask explain docker volumes\n"
+            "Example: /ask how does CI/CD work?"
+        )
+        return
+
+    question = " ".join(args)
+    await update.message.reply_text("🔍 Searching for answer...")
+
+    from ai import ask_ai
+    answer = ask_ai(question)
+
+    await update.message.reply_text(
+        f"🤖 *DevOps Bot Answer:*\n\n{answer}\n\n"
+        f"_Powered by AI • Built by 0xApana_ 🚀",
+        parse_mode="Markdown"
+    )
