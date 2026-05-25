@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+from database import init_db
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters
 from commands import start, tip, roadmap, explain, quiz,handle_answer, resources, about, ask
 
@@ -8,6 +9,7 @@ load_dotenv()
 TOKEN = os.getenv("BOT_TOKEN")
 
 def main():
+    init_db()
     app = ApplicationBuilder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("tip", tip))

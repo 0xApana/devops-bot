@@ -2,6 +2,7 @@ import random
 from telegram import Update
 from telegram.ext import ContextTypes
 from tips import TIPS
+from database import add_user, get_ask_count, is_premium, increment_ask_count
 
 MOTIVATIONS = [
     "Every expert was once a beginner. Keep going! 💪",
@@ -50,6 +51,8 @@ QUIZ_QUESTIONS = [
 ]
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user = update.effective_user
+    add_user(user.id, user.username, user.first_name)
     await update.message.reply_text(
         "👋 Welcome to DevOps Learning Bot!\n\n"
         "I am your personal DevOps tutor built by 0xApana 🚀\n\n"
@@ -203,6 +206,22 @@ async def about(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user = update.effective_user
+    add_user(user.id, user.username, user.first_name)
+    
+    FREE_LIMIT = 5
+    
+    if not is_premium(user.id):
+        count = get_ask_count(user.id)
+        if count >= FREE_LIMIT:
+            await update.message.reply_text(
+                f"🔒 You've used all {FREE_LIMIT} free AI questions!\n\n"
+                "Upgrade to Premium for unlimited AI answers:\n"
+                "💎 ₦1,000/month or ₦5,000 lifetime\n\n"
+                "Contact @0xApana to upgrade! 🚀"
+            )
+            return
+
     args = context.args
     if not args:
         await update.message.reply_text(
@@ -218,7 +237,14 @@ async def ask(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     from ai import ask_ai
     answer = ask_ai(question)
+    increment_ask_count(user.id)
+
+    remaining = FREE_LIMIT - get_ask_count(user.id)
+    if not is_premium(user.id):
+        footer = f"\n\n💡 {remaining} free questions remaining. Upgrade for unlimited! 🚀"
+    else:
+        footer = "\n\n💎 Premium Member • Unlimited Questions"
 
     await update.message.reply_text(
-        f"🤖 DevOps Bot Answer:\n\n{answer}\n\nPowered by AI • Built by 0xApana 🚀"
+        f"🤖 DevOps Bot Answer:\n\n{answer}{footer}\n\nPowered by AI • Built by 0xApana 🚀"
     )
