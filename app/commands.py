@@ -59,7 +59,8 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "/explain - Learn about a DevOps tool\n"
         "/quiz - Test your DevOps knowledge\n"
         "/resources - Get learning resources\n"
-        "/about - Learn about the creator\n\n"
+        "/about - Learn about the creator\n"
+        "/ask - Ask AI any DevOps question\n\n"
         "Let's build something great together! 💪"
     )
 
