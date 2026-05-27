@@ -2,7 +2,7 @@ from flask import Flask, jsonify
 from database import get_total_users, get_premium_users
 import sqlite3
 import os
-from flask import Flask, jsonify, render_templates
+from flask import Flask, jsonify, render_template
 
 @app.route('/')
 def dashboard():
