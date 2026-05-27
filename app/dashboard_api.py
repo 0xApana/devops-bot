@@ -1,15 +1,15 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 from database import get_total_users, get_premium_users
 import sqlite3
 import os
-from flask import Flask, jsonify, render_template
 
-@app.route('/')
-def dashboard():
-    return render_templates('dashbaord.html')
 app = Flask(__name__)
 
 DB_PATH = os.path.join(os.path.dirname(__file__), "users.db")
+
+@app.route('/')
+def dashboard():
+    return render_template('dashboard.html')
 
 @app.route('/stats')
 def stats():
